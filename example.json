@@ -1,0 +1,57 @@
+{
+    "labels": [
+        {
+            "label_name": "animal",
+            "type": "categorical",
+            "choices": [
+                {
+                    "choice_name": "dog",
+                    "labels": [
+                        {
+                            "label_name": "breed",
+                            "type": "categorical",
+                            "choices": [
+                                {
+                                    "choice_name": "Bulldog"
+                                },
+                                {
+                                    "choice_name": "Golden Retriever"
+                                },
+                                {
+                                    "choice_name": "Shiba Inu"
+                                }
+                            ]
+                        },
+                        {
+                            "label_name": "long-haired",
+                            "type": "boolean"
+                        }
+                    ]
+                },
+                {
+                    "choice_name": "cat",
+                    "labels": [
+                        {
+                            "label_name": "color",
+                            "type": "categorical",
+                            "choices": [
+                                {
+                                    "choice_name": "black"
+                                },
+                                {
+                                    "choice_name": "white"
+                                },
+                                {
+                                    "choice_name": "orange"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "choice_name": "fish"
+                }
+            ]
+        }
+    ]
+}
