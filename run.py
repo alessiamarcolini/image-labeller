@@ -2,6 +2,7 @@ import argparse
 import imghdr
 import json
 import os
+import random
 from collections import OrderedDict
 from dataclasses import dataclass
 from typing import List
@@ -93,6 +94,7 @@ def main(images_directory, csv_filename, json_labels_filename):
         if imghdr.what(os.path.join(images_directory, f)) == "png" and 'thumb' 
         not in  f
     ]
+    random.shuffle(total_images_filenames)
 
     thumbnails_filenames = [f for f in os.listdir(images_directory) if 'thumb' in f]
 
@@ -119,9 +121,11 @@ def main(images_directory, csv_filename, json_labels_filename):
 
         thumb_filename = f'{wsi_filename}_thumb.png'
 
+        tile_level = filename.split('_')[4][-1]
+
         filename_absolute = os.path.join(images_directory, filename)
         thumb_absolute = os.path.join(images_directory, thumb_filename)
-
+        plt.ion()
         # Show the image and the corresponding wsi's thumbnail
         image = mpimg.imread(filename_absolute)
         im = ax.imshow(image)
@@ -139,7 +143,7 @@ def main(images_directory, csv_filename, json_labels_filename):
 
         plt.show(block=False)
 
-        results = OrderedDict({"user_name": user_name, "filename": filename})
+        results = OrderedDict({"user_name": user_name, "filename": filename, "tile_level": tile_level})
 
         label_list = [Label(l) for l in labels[ROOT]]
 
