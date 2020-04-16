@@ -91,7 +91,7 @@ def main(images_directory, csv_filename, json_labels_filename):
         f
         for f in os.listdir(images_directory)
         if imghdr.what(os.path.join(images_directory, f)) == "png" and 'thumb' 
-        not in imghdr.what(os.path.join(images_directory, f))
+        not in  f
     ]
 
     thumbnails_filenames = [f for f in os.listdir(images_directory) if 'thumb' in f]
@@ -125,13 +125,15 @@ def main(images_directory, csv_filename, json_labels_filename):
         # Show the image and the corresponding wsi's thumbnail
         image = mpimg.imread(filename_absolute)
         im = ax.imshow(image)
-        ax.set_title('tile')
+        ax.set_title(f'tile: \n {filename}')
         im.set_data(image)
         
         thumb = mpimg.imread(thumb_absolute)
         th = ax_thumb.imshow(thumb)
-        ax_thumb.set_title('thumbnail')
+        ax_thumb.set_title(f'thumbnail: \n {thumb_filename}', fontsize=12)
         th.set_data(thumb)
+
+        fig.suptitle(f'WSI: {wsi_filename}')
 
         fig.canvas.draw_idle()
 
