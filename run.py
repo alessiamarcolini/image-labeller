@@ -125,10 +125,12 @@ def main(images_directory, csv_filename, json_labels_filename):
         # Show the image and the corresponding wsi's thumbnail
         image = mpimg.imread(filename_absolute)
         im = ax.imshow(image)
+        ax.set_title('tile')
         im.set_data(image)
         
         thumb = mpimg.imread(thumb_absolute)
         th = ax_thumb.imshow(thumb)
+        ax_thumb.set_title('thumbnail')
         th.set_data(thumb)
 
         fig.canvas.draw_idle()
