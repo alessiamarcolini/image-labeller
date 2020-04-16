@@ -90,8 +90,11 @@ def main(images_directory, csv_filename, json_labels_filename):
     total_images_filenames = [
         f
         for f in os.listdir(images_directory)
-        if imghdr.what(os.path.join(images_directory, f)) == "png"
+        if imghdr.what(os.path.join(images_directory, f)) == "png" and 'thumb' 
+        not in imghdr.what(os.path.join(images_directory, f))
     ]
+
+    thumbnails_filenames = [f for f in os.listdir(images_directory) if 'thumb' in f]
 
     total_images = len(total_images_filenames)
 
@@ -108,17 +111,28 @@ def main(images_directory, csv_filename, json_labels_filename):
 
     user_name = input("Please insert your name: ")
 
-    fig, ax = plt.subplots(1, 1)
+    fig, (ax, ax_thumb) = plt.subplots(1, 2)
 
     for i, filename in enumerate(remaining_images_filenames):
 
-        filename_absolute = os.path.join(images_directory, filename)
+        wsi_filename = ('_').join((filename.split('_')[0],filename.split('_')[1]))
 
-        # Show the image
+        thumb_filename = f'{wsi_filename}_thumb.png'
+
+        filename_absolute = os.path.join(images_directory, filename)
+        thumb_absolute = os.path.join(images_directory, thumb_filename)
+
+        # Show the image and the corresponding wsi's thumbnail
         image = mpimg.imread(filename_absolute)
         im = ax.imshow(image)
         im.set_data(image)
+        
+        thumb = mpimg.imread(thumb_absolute)
+        th = ax_thumb.imshow(thumb)
+        th.set_data(thumb)
+
         fig.canvas.draw_idle()
+
         plt.show(block=False)
 
         results = OrderedDict({"user_name": user_name, "filename": filename})
