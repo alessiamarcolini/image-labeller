@@ -7,9 +7,12 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from typing import List
 
+import matplotlib
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import pandas as pd
+
+matplotlib.use("Qt5Agg")
 
 ROOT = "labels"  # JSON root
 
@@ -91,12 +94,11 @@ def main(images_directory, csv_filename, json_labels_filename):
     total_images_filenames = [
         f
         for f in os.listdir(images_directory)
-        if imghdr.what(os.path.join(images_directory, f)) == "png" and 'thumb' 
-        not in  f
+        if imghdr.what(os.path.join(images_directory, f)) == "png" and "thumb" not in f
     ]
     random.shuffle(total_images_filenames)
 
-    thumbnails_filenames = [f for f in os.listdir(images_directory) if 'thumb' in f]
+    thumbnails_filenames = [f for f in os.listdir(images_directory) if "thumb" in f]
 
     total_images = len(total_images_filenames)
 
@@ -117,11 +119,11 @@ def main(images_directory, csv_filename, json_labels_filename):
 
     for i, filename in enumerate(remaining_images_filenames):
 
-        wsi_filename = ('_').join((filename.split('_')[0],filename.split('_')[1]))
+        wsi_filename = ("_").join((filename.split("_")[0], filename.split("_")[1]))
 
-        thumb_filename = f'{wsi_filename}_thumb.png'
+        thumb_filename = f"{wsi_filename}_thumb.png"
 
-        tile_level = filename.split('_')[4][-1]
+        tile_level = filename.split("_")[4][-1]
 
         filename_absolute = os.path.join(images_directory, filename)
         thumb_absolute = os.path.join(images_directory, thumb_filename)
@@ -129,21 +131,23 @@ def main(images_directory, csv_filename, json_labels_filename):
         # Show the image and the corresponding wsi's thumbnail
         image = mpimg.imread(filename_absolute)
         im = ax.imshow(image)
-        ax.set_title(f'tile: \n {filename}')
+        ax.set_title(f"tile: \n {filename}")
         im.set_data(image)
-        
+
         thumb = mpimg.imread(thumb_absolute)
         th = ax_thumb.imshow(thumb)
-        ax_thumb.set_title(f'thumbnail: \n {thumb_filename}', fontsize=12)
+        ax_thumb.set_title(f"thumbnail: \n {thumb_filename}", fontsize=12)
         th.set_data(thumb)
 
-        fig.suptitle(f'WSI: {wsi_filename}')
+        fig.suptitle(f"WSI: {wsi_filename}")
 
         fig.canvas.draw_idle()
 
         plt.show(block=False)
 
-        results = OrderedDict({"user_name": user_name, "filename": filename, "tile_level": tile_level})
+        results = OrderedDict(
+            {"user_name": user_name, "filename": filename, "tile_level": tile_level}
+        )
 
         label_list = [Label(l) for l in labels[ROOT]]
 
