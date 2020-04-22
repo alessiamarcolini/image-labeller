@@ -181,7 +181,7 @@ def main(images_directory, csv_filename, json_labels_filename):
                 results[label.name] = choice_i
 
             if choice.labels:
-                label_list.extend(choice.labels)
+                label_list.extend(reversed(choice.labels))
 
         dataset = dataset.append(results, ignore_index=True)
         dataset.to_csv(csv_filename, index=False)
